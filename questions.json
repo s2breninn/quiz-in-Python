@@ -1,0 +1,42 @@
+[
+    {
+        "pergunta": "Quem foi o primeiro homem a pisar na Lua?",
+        "opcoes": ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Alan Shepard"],
+        "resposta": "Neil Armstrong"
+    },
+    {
+        "pergunta": "Qual é o maior planeta do sistema solar?",
+        "opcoes": ["Júpiter", "Saturno", "Terra", "Marte"],
+        "resposta": "Júpiter"
+    },
+    {
+        "pergunta": "Quem pintou a 'Mona Lisa'?",
+        "opcoes": ["Leonardo da Vinci", "Michelangelo", "Pablo Picasso", "Vincent van Gogh"],
+        "resposta": "Leonardo da Vinci"
+    },
+    {
+        "pergunta": "Qual é o maior oceano do mundo?",
+        "opcoes": ["Oceano Pacífico", "Oceano Atlântico", "Oceano Índico", "Oceano Antártico"],
+        "resposta": "Oceano Pacífico"
+    },
+    {
+        "pergunta": "Quem foi o primeiro presidente dos Estados Unidos?",
+        "opcoes": ["George Washington", "Thomas Jefferson", "John Adams", "Abraham Lincoln"],
+        "resposta": "George Washington"
+    },
+    {
+        "pergunta": "Qual é a capital da Austrália?",
+        "opcoes": ["Sydney", "Melbourne", "Brisbane", "Camberra"],
+        "resposta": "Camberra"
+    },
+    {
+        "pergunta": "Quem escreveu 'Romeu e Julieta'?",
+        "opcoes": ["William Shakespeare", "Charles Dickens", "Jane Austen", "F. Scott Fitzgerald"],
+        "resposta": "William Shakespeare"
+    },
+    {
+        "pergunta": "Qual é o maior animal terrestre?",
+        "opcoes": ["Elefante Africano", "Baleia Azul", "Girafa", "Hipopótamo"],
+        "resposta": "Elefante Africano"
+    }
+]
