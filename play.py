@@ -2,10 +2,11 @@ import json
 
 pts = 0
 letters = ['a', 'b', 'c', 'd']
-response_list = []
+player_res_list = []
+computer_res_list = []
 
 print('=============================')
-print('Bem-vindo o jogo do QUIZ')
+print('Bem-vindo o jogo do quiz')
 def main_print(pts):
     print('=============================')
     print(f'\nPontos: {pts}')
@@ -28,7 +29,7 @@ def validation_letters():
             player_response = input('Resposta: ')
             if player_response not in letters:
                 raise ValueError('Entrada inválida! Insira a, b, c ou d')
-            response_list.append(player_response)
+            player_res_list.append(player_response)
             return player_response
         except Exception as e:
             print(f'Error: {e}')
@@ -36,7 +37,6 @@ def validation_letters():
 def view_json():
     with open('questions.json') as file:
         data = json.load(file)
-
     return data
 
 def play_quiz(player_move, data, letters):
@@ -51,14 +51,23 @@ def show_question(num_q, question, letters):
     for i, option in enumerate(question["opcoes"][:len(letters)], start=0):
         print(f"{letters[i]}) {option}")
     validation_letters()
-    print(response_list)
 
-def check_res():
-    ...
+def check_pts_res(pts, data, computer_res_list, player_res_list):
+    # Iterando sobre cada pergunta
+    for question in data:
+        for i, (option, letter) in enumerate(zip(question['opcoes'], letters)):
+            if question['resposta'] == option:
+                computer_res_list.append(letter)
+    # Comparando as listas e somando a pontuação
+    for player_res_list, computer_res_list in zip(player_res_list, computer_res_list):
+        if player_res_list == computer_res_list:
+            pts += 10
+    return pts
 
 again = 1
 while again == 1:
     main_print(pts)
     player_move = validation_in()
-    data = view_JSON()
+    data = view_json()
     play_quiz = play_quiz(player_move, data, letters)
+    pts = check_pts_res(pts, data, computer_res_list, player_res_list)
