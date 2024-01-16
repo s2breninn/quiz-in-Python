@@ -1,15 +1,19 @@
 import json
+import os
 
 pts = 0
+count_q = 0
+rodada = 1
 letters = ['a', 'b', 'c', 'd']
 player_res_list = []
 computer_res_list = []
 
 print('=============================')
 print('Bem-vindo o jogo do quiz')
-def main_print(pts):
+def main_print(pts, rodada):
     print('=============================')
     print(f'\nPontos: {pts}')
+    print((f'Rodada: {rodada}'))
     print('Escolha se quer jogar ou não')
     print('0 - SIM | 1 - NÃO')
 
@@ -34,6 +38,9 @@ def validation_letters():
         except Exception as e:
             print(f'Error: {e}')
 
+def capturar_info_player():
+    nome = input('Nome: ')
+
 def view_json():
     with open('questions.json') as file:
         data = json.load(file)
@@ -43,6 +50,8 @@ def play_quiz(player_move, data, letters):
     if player_move == 0:
         for num_q, question in enumerate(data, start=1):
             show_question(num_q, question, letters)
+    elif player_move == 1:
+        os.system('exit')
     else:
         ...
 
@@ -66,8 +75,23 @@ def check_pts_res(pts, data, computer_res_list, player_res_list):
 
 again = 1
 while again == 1:
-    main_print(pts)
+    main_print(pts, rodada)
     player_move = validation_in()
     data = view_json()
-    play_quiz = play_quiz(player_move, data, letters)
+    play_quiz(player_move, data, letters)
     pts = check_pts_res(pts, data, computer_res_list, player_res_list)
+
+    print('\n==================')
+    print(f'PLACAR: {pts} pontos')
+    print('==================')
+
+    while True:
+        print('\nJogar novamente? 0 - SIM | 1 - NÃO')
+        next = int(input())
+        if next == 0:
+            rodada += 1
+            break
+        elif next == 1:
+            again = 0
+            break
+    os.system('clear')
