@@ -7,6 +7,9 @@ rodada = 1
 letters = ['a', 'b', 'c', 'd']
 player_res_list = []
 computer_res_list = []
+rodadas = []
+player_dict = {}
+new_round = {}
 
 print('=============================')
 print('Bem-vindo o jogo do quiz')
@@ -17,6 +20,7 @@ def main_print(pts, rodada):
     print('Escolha se quer jogar ou não')
     print('0 - SIM | 1 - NÃO')
 
+# Validação de entrada (0 ou 1)
 def validation_in():
     while True:
         try:
@@ -27,6 +31,7 @@ def validation_in():
         except Exception as e:
             print(f'Error: {e}')
 
+# Validação de entrada para letra (a, b, c ou d)
 def validation_letters():
     while True:
         try:
@@ -38,29 +43,38 @@ def validation_letters():
         except Exception as e:
             print(f'Error: {e}')
 
-def capturar_info_player():
-    nome = input('Nome: ')
-
+#Visualização de questões, alternativas e respostas em JSON -> Dicionário em Py
 def view_json():
     with open('questions.json') as file:
         data = json.load(file)
     return data
 
+#Visualização de informações do jogador
+def view_json_players():
+    with open('players.json') as file:
+        data_players = json.load(file)
+    return data_players
+
+# Startando o jogo
 def play_quiz(player_move, data, letters):
     if player_move == 0:
+        nome = input("Nome: ")
         for num_q, question in enumerate(data, start=1):
             show_question(num_q, question, letters)
+        return nome
     elif player_move == 1:
         os.system('exit')
     else:
         ...
 
+# Mostrar questões
 def show_question(num_q, question, letters):
     print(f"\n{num_q}) {question['pergunta']}")
     for i, option in enumerate(question["opcoes"][:len(letters)], start=0):
         print(f"{letters[i]}) {option}")
     validation_letters()
 
+# Checagem de resposta
 def check_pts_res(pts, data, computer_res_list, player_res_list):
     # Iterando sobre cada pergunta
     for question in data:
@@ -73,13 +87,49 @@ def check_pts_res(pts, data, computer_res_list, player_res_list):
             pts += 10
     return pts
 
+# Capturar informações sobre o jogador
+# Capturar informações sobre o jogador
+def captura_info_player(data_players, nome, rodadas, player_res_list, computer_res_list, pts, player_dict, new_round):
+    print(f'Jogador: {nome} - Rodada: {rodada} | Respostas: {player_res_list}, Resposta Corretas{computer_res_list} - Pontos: {pts}')
+
+    player_dict['nome'] = nome
+
+    new_round['rodada'] = rodada
+    new_round['resposta_jogador'] = player_res_list
+    new_round['resposta_computador'] = computer_res_list
+    new_round['pontos'] = pts
+
+    rodadas.append(new_round)
+
+    player_encontrado = None
+    for player in data_players:
+        if player['nome'] == nome:
+            player['rodadas'].append(new_round)
+            print('(id={cd_player}) Nome: {nome}\nRodadas: {rodadas}'.format(**player))
+            break
+
+        if player['nome'] != nome:
+            player['nome'] = nome
+            player['rodadas'] = rodadas
+
+    print(player_dict, new_round)
+    print(data_players)
+
+
+
+
+
 again = 1
 while again == 1:
     main_print(pts, rodada)
     player_move = validation_in()
     data = view_json()
-    play_quiz(player_move, data, letters)
+    nome = play_quiz(player_move, data, letters)
     pts = check_pts_res(pts, data, computer_res_list, player_res_list)
+    # Capturando dados do arquivo JSON
+    data_players = view_json_players()
+    # Capturando dados da jogada do jogador
+    captura_info_player(data_players, nome, rodadas, player_res_list, computer_res_list, pts, player_dict, new_round)
 
     print('\n==================')
     print(f'PLACAR: {pts} pontos')

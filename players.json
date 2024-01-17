@@ -1,0 +1,19 @@
+[
+  {
+    "cd_player": 1,
+    "nome": "Mister Bin",
+    "rodadas": [{
+        "rodada": 1,
+        "resposta_jogador": ["a", "b", "c", "d", "a", "a", "a", "a"],
+        "resposta_computador": ["a", "a", "a", "a", "a", "d", "a", "a"],
+        "pts": 40
+      },
+      {
+        "rodada": 2,
+        "resposta_jogador": ["a", "b", "c", "d", "a", "a", "a", "a"],
+        "resposta_computador": ["a", "a", "a", "a", "a", "d", "a", "a"],
+        "pts": 40
+      }
+    ]
+  }
+]
