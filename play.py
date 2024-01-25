@@ -7,7 +7,6 @@ rodada = 1
 letters = ['a', 'b', 'c', 'd']
 player_res_list = []
 computer_res_list = []
-rodadas = []
 player_dict = {}
 new_round = {}
 
@@ -88,36 +87,35 @@ def check_pts_res(pts, data, computer_res_list, player_res_list):
     return pts
 
 # Capturar informações sobre o jogador
-# Capturar informações sobre o jogador
-def captura_info_player(data_players, nome, rodadas, player_res_list, computer_res_list, pts, player_dict, new_round):
-    print(f'Jogador: {nome} - Rodada: {rodada} | Respostas: {player_res_list}, Resposta Corretas{computer_res_list} - Pontos: {pts}')
+def captura_info_player(data_players, nome, player_res_list, computer_res_list, pts, player_dict):
+    new_round = {}
 
-    player_dict['nome'] = nome
-
+    # Armazenando dados da rodada
     new_round['rodada'] = rodada
     new_round['resposta_jogador'] = player_res_list
     new_round['resposta_computador'] = computer_res_list
     new_round['pontos'] = pts
 
-    rodadas.append(new_round)
-
-    player_encontrado = None
+    player_exists = False
     for player in data_players:
         if player['nome'] == nome:
+            print('Já existe um jogador com esse nome.')
             player['rodadas'].append(new_round)
-            print('(id={cd_player}) Nome: {nome}\nRodadas: {rodadas}'.format(**player))
+            player_exists = True
             break
+    if not player_exists:
+        print('Adicionando novo jogador.')
+        new_player = {
+            'nome': nome,
+            'rodadas': [new_round]
+        }
+    data_players.append(new_player)
 
-        if player['nome'] != nome:
-            player['nome'] = nome
-            player['rodadas'] = rodadas
+    for player in data_players:
+        print(f'\n{player["nome"]}\nRodadas: {player["rodadas"]}')
 
-    print(player_dict, new_round)
-    print(data_players)
-
-
-
-
+    with open('players.json', 'w') as file:
+        json.dump(data_players, file, indent=2)
 
 again = 1
 while again == 1:
@@ -129,7 +127,7 @@ while again == 1:
     # Capturando dados do arquivo JSON
     data_players = view_json_players()
     # Capturando dados da jogada do jogador
-    captura_info_player(data_players, nome, rodadas, player_res_list, computer_res_list, pts, player_dict, new_round)
+    captura_info_player(data_players, nome, player_res_list, computer_res_list, pts, player_dict)
 
     print('\n==================')
     print(f'PLACAR: {pts} pontos')
@@ -143,5 +141,6 @@ while again == 1:
             break
         elif next == 1:
             again = 0
+            os.system('exit')
             break
     os.system('clear')
