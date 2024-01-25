@@ -1,1 +1,4 @@
-# Jogo de Quiz em Python 
+# Jogo de Quiz em Python  
+----
+
+Em desenvolvimento
